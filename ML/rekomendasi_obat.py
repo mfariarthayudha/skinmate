@@ -44,7 +44,7 @@ print(skin_value)
 path_data_rekomendasi = "Data_Rekomendasi.csv"
 data_rekomendasi = pd.read_csv(path_data_rekomendasi, delimiter=";")
 
-# disease: 0 = Acne Vulgaris, 1 = Actinic Keratosis, 2 = Nail Fungus, 3 = Psoriasis, 4 = Seborrheic Keratoses
+# disease: 1 = Acne Vulgaris, 2 = Actinic Keratosis, 3 = Nail Fungus, 4 = Psoriasis, 5 = Seborrheic Keratoses
 
 if skin_value == "Acne Vulgaris":
     hasil_rekomendasi = data_rekomendasi.query("Rekomendasi == 1")
