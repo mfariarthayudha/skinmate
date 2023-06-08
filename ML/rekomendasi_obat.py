@@ -7,12 +7,12 @@ import calendar
 import time
 import pandas as pd
 
-model_path = "skin_disease_model.h5"
+model_path = "ModelingV3.h5"
 
 model = load_model(model_path)
 
 picture_path = (
-    "dataset/3test/Psoriasis/psoriasis-digits-3.jpg"
+    "dataset/3test/AcneVulgaris/acne-closed-comedo-003.jpg"
 )
 
 img = image.load_img(picture_path, target_size=(150, 150))
