@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dicoding.picodiploma.SkinMate">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_skinmate"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo_skinmate"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LoginWithAnimation">
+        <activity
+            android:name="com.dicoding.picodiploma.SkinMate.view.welcome.WelcomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.dicoding.picodiploma.SkinMate.view.signup.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.dicoding.picodiploma.SkinMate.view.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.dicoding.picodiploma.SkinMate.view.main.MainActivity"
+            android:exported="false">
+        </activity>
+    </application>
+
+</manifest>
