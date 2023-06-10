@@ -1,10 +1,10 @@
-package com.dicoding.picodiploma.SkinMate.view.ui.fragment.camera
+package com.dicoding.picodiploma.SkinMate.view.ui.fragment.media
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class CameraViewModel : ViewModel() {
+class MediaViewModel : ViewModel() {
     private val _text = MutableLiveData<String>().apply {
         value = "This is camera Fragment"
     }

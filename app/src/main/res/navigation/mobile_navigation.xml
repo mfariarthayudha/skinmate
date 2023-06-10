@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/navigation_camera"
-        android:name="com.dicoding.picodiploma.SkinMate.view.ui.fragment.camera.CameraFragment"
+        android:name="com.dicoding.picodiploma.SkinMate.view.ui.fragment.media.MediaFragment"
         android:label="@string/title_camera"
-        tools:layout="@layout/fragment_camera" />
+        tools:layout="@layout/fragment_media" />
 
     <fragment
         android:id="@+id/navigation_profile"

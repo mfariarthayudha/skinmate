@@ -18,5 +18,10 @@
     <string name="title_camera">Camera</string>
     <string name="title_profile">Profile</string>
     <string name="email_error">Email Tidak Sesuai</string>
+    <string name="add_story">Add Story</string>
+    <string name="messageMedia">Pilih opsi di bawah ini</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="process_citra">Process Citra</string>
 
 </resources>
