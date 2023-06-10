@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.ui.profile
+package com.dicoding.picodiploma.SkinMate.view.ui.fragment.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

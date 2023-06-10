@@ -3,9 +3,9 @@ package com.dicoding.picodiploma.SkinMate.view
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
-import com.dicoding.picodiploma.SkinMate.view.login.LoginViewModel
-import com.dicoding.picodiploma.SkinMate.view.main.MainViewModel
-import com.dicoding.picodiploma.SkinMate.view.signup.SignupViewModel
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginViewModel
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.signup.SignupViewModel
 
 class ViewModelFactory(private val pref: UserPreference) : ViewModelProvider.NewInstanceFactory() {
 

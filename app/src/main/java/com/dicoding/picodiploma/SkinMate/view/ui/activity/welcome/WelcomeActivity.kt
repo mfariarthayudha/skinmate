@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.welcome
+package com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -10,8 +10,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.picodiploma.SkinMate.databinding.ActivityWelcomeBinding
-import com.dicoding.picodiploma.SkinMate.view.login.LoginActivity
-import com.dicoding.picodiploma.SkinMate.view.signup.SignupActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.signup.SignupActivity
 
 class WelcomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWelcomeBinding

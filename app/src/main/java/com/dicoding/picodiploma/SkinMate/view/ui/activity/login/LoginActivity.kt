@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.login
+package com.dicoding.picodiploma.SkinMate.view.ui.activity.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -19,7 +19,7 @@ import com.dicoding.picodiploma.SkinMate.databinding.ActivityLoginBinding
 import com.dicoding.picodiploma.SkinMate.model.UserModel
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
-import com.dicoding.picodiploma.SkinMate.view.main.MainActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainActivity
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 

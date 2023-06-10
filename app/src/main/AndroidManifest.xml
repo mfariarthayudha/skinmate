@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dicoding.picodiploma.SkinMate">
+    package="com.dicoding.picodiploma.SkinMate" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:allowBackup="true"
@@ -8,10 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_skinmate"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LoginWithAnimation">
+        android:theme="@style/Theme.LoginWithAnimation" >
         <activity
-            android:name="com.dicoding.picodiploma.SkinMate.view.welcome.WelcomeActivity"
-            android:exported="true">
+            android:name=".view.ui.activity.camera.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ui.activity.welcome.WelcomeActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,14 +28,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dicoding.picodiploma.SkinMate.view.signup.SignupActivity"
+            android:name=".view.ui.activity.signup.SignupActivity"
             android:exported="false" />
         <activity
-            android:name="com.dicoding.picodiploma.SkinMate.view.login.LoginActivity"
+            android:name=".view.ui.activity.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.dicoding.picodiploma.SkinMate.view.main.MainActivity"
-            android:exported="false">
+            android:name=".view.ui.activity.main.MainActivity"
+            android:exported="false" >
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.login
+package com.dicoding.picodiploma.SkinMate.view.ui.activity.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,14 +8,15 @@ import com.dicoding.picodiploma.SkinMate.model.UserModel
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val pref: UserPreference) : ViewModel() {
+class MainViewModel(private val pref: UserPreference) : ViewModel() {
     fun getUser(): LiveData<UserModel> {
         return pref.getUser().asLiveData()
     }
 
-    fun login() {
+    fun logout() {
         viewModelScope.launch {
-            pref.login()
+            pref.logout()
         }
     }
+
 }

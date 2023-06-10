@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.main
+package com.dicoding.picodiploma.SkinMate.view.ui.activity.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

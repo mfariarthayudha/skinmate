@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.SkinMate.view.signup
+package com.dicoding.picodiploma.SkinMate.view.ui.activity.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
