@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.SkinMate.view.ui.fragment.profile
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.SkinMate.R
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentProfileBinding
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome.WelcomeActivity
 
-class ProfileFragment(private val dataStore: DataStore<Preferences>) : Fragment() {
+private val Context.dataStore by preferencesDataStore("app_preferences")
+class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
-    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var mainViewModel: MainViewModel
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -42,20 +46,23 @@ class ProfileFragment(private val dataStore: DataStore<Preferences>) : Fragment(
 
     private fun setUpAction() {
         _binding!!.btnLogout.setOnClickListener{
-            profileViewModel.logout()
+            mainViewModel.logout()
         }
     }
 
     private fun setUpViewModel() {
-        profileViewModel = ViewModelProvider(
+        val pref = requireContext().dataStore
+
+        mainViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(UserPreference.getInstance(dataStore))
-        )[ProfileViewModel::class.java]
+            ViewModelFactory(UserPreference.getInstance(pref))
+        )[MainViewModel::class.java]
 
         activity.let {
-            profileViewModel.getUser().observe(it!!) { user ->
+            mainViewModel.getUser().observe(it!!) { user ->
                 if (user.isLogin) {
-                    binding.FullName.text = getString(R.string.greeting, user.name)
+                    binding.FullName.text = user.name
+                    binding.email.text = user.email
                 } else {
                     startActivity(Intent(it, WelcomeActivity::class.java))
                     requireActivity().finish()
