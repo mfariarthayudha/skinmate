@@ -32,5 +32,6 @@
     <string name="about_us">Tentang Skin Mate</string>
     <string name="report_us">Laporkan Masalah</string>
     <string name="log_out">keluar</string>
+    <string name="continue_with_google">Continue With Google</string>
 
 </resources>

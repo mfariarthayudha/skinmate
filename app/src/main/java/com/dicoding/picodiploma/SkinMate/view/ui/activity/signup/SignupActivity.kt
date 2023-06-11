@@ -102,6 +102,7 @@ class SignupActivity : AppCompatActivity() {
         val passwordTextView = ObjectAnimator.ofFloat(binding.passwordTextView, View.ALPHA, 1f).setDuration(500)
         val passwordEditTextLayout = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
         val signup = ObjectAnimator.ofFloat(binding.signupButton, View.ALPHA, 1f).setDuration(500)
+        val withGoogle = ObjectAnimator.ofFloat(binding.signupButtonWithGoogle, View.ALPHA, 1f).setDuration(500)
 
 
         AnimatorSet().apply {
@@ -113,7 +114,8 @@ class SignupActivity : AppCompatActivity() {
                 emailEditTextLayout,
                 passwordTextView,
                 passwordEditTextLayout,
-                signup
+                signup,
+                withGoogle
             )
             startDelay = 500
         }.start()
