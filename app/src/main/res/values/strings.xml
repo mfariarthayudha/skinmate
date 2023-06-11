@@ -23,5 +23,14 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="process_citra">Process Citra</string>
+    <string name="profile_pictrue">profile pictrue</string>
+    <string name="full_name_here">Full Name Here</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="example1234_email_com">example1234@email.com</string>
+    <string name="button_help">button help</string>
+    <string name="tanya_jawab">Tanya Jawab</string>
+    <string name="about_us">Tentang Skin Mate</string>
+    <string name="report_us">Laporkan Masalah</string>
+    <string name="log_out">keluar</string>
 
 </resources>
