@@ -2,10 +2,13 @@ package com.dicoding.picodiploma.SkinMate.view.ui.fragment.profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -15,12 +18,14 @@ import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.SkinMate.R
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentProfileBinding
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
+import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome.WelcomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.io.File
 
 private val Context.dataStore by preferencesDataStore("app_preferences")
 class ProfileFragment : Fragment() {
@@ -28,6 +33,7 @@ class ProfileFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private var getFile: File? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,9 +57,32 @@ class ProfileFragment : Fragment() {
         return root
     }
 
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val selectedImg = result.data?.data as Uri
+
+            selectedImg.let { uri ->
+                activity.let {
+                    val myFile = uriToFile(uri, it)
+                    getFile = myFile
+                }
+            }
+        }
+    }
+
     private fun setUpAction() {
         _binding!!.btnLogout.setOnClickListener{
             mainViewModel.logout()
+        }
+
+        binding.imageProfile.setOnClickListener{
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            val chooser = Intent.createChooser(intent, "Choose a Picture")
+            launcherIntentGallery.launch(chooser)
         }
     }
 
