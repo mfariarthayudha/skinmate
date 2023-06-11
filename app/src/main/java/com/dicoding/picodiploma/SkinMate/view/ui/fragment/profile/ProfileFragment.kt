@@ -11,18 +11,23 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.dicoding.picodiploma.SkinMate.R
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentProfileBinding
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome.WelcomeActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 private val Context.dataStore by preferencesDataStore("app_preferences")
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private lateinit var mainViewModel: MainViewModel
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +38,8 @@ class ProfileFragment : Fragment() {
 
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        auth = Firebase.auth
 
         setUpViewModel()
         setUpAction()
@@ -59,15 +66,24 @@ class ProfileFragment : Fragment() {
         )[MainViewModel::class.java]
 
         activity.let {
-            mainViewModel.getUser().observe(it!!) { user ->
-                if (user.isLogin) {
-                    binding.FullName.text = user.name
-                    binding.email.text = user.email
-                } else {
-                    startActivity(Intent(it, WelcomeActivity::class.java))
-                    requireActivity().finish()
-                }
-            }
+            val user = auth.currentUser
+
+            Glide.with(this@ProfileFragment)
+                .load(user?.photoUrl)
+                .into(binding.imageProfile)
+
+            binding.FullName.text = user?.displayName
+            binding.email.text = user?.email
+
+//            mainViewModel.getUser().observe(it!!) { user ->
+//                if (user.isLogin) {
+//                    binding.FullName.text = user.name
+//                    binding.email.text = user.email
+//                } else {
+//                    startActivity(Intent(it, WelcomeActivity::class.java))
+//                    requireActivity().finish()
+//                }
+//            }
         }
     }
 

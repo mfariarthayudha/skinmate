@@ -33,8 +33,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var user: UserModel
     private lateinit var auth: FirebaseAuth
-// ...
-// Initialize Firebase Auth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,52 +77,45 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
 
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        val user = auth.currentUser
-                        val intent = Intent(this, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(
-                            baseContext,
-                            task.exception.toString(),
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
+
+            when {
+                email.isEmpty() -> {
+                    binding.emailEditTextLayout.error = "Masukkan email"
                 }
-//            when {
-//                email.isEmpty() -> {
-//                    binding.emailEditTextLayout.error = "Masukkan email"
-//                }
-//                password.isEmpty() -> {
-//                    binding.passwordEditTextLayout.error = "Masukkan password"
-//                }
-//                email != user.email -> {
-//                    binding.emailEditTextLayout.error = "Email tidak sesuai"
-//                }
-//                password != user.password -> {
-//                    binding.passwordEditTextLayout.error = "Password tidak sesuai"
-//                }
-//                else -> {
-//                    loginViewModel.login()
-//                    AlertDialog.Builder(this).apply {
-//                        setTitle("Yeah!")
-//                        setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-//                        setPositiveButton("Lanjut") { _, _ ->
-//                            val intent = Intent(context, MainActivity::class.java)
-//                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                            startActivity(intent)
-//                            finish()
-//                        }
-//                        create()
-//                        show()
-//                    }
-//                }
-//            }
+                password.isEmpty() -> {
+                    binding.passwordEditTextLayout.error = "Masukkan password"
+                }
+                else -> {
+                    auth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                // Sign in success, update UI with the signed-in user's information
+                                val user = auth.currentUser
+                                AlertDialog.Builder(this).apply {
+                                    setTitle("Yeah!")
+                                    setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
+                                    setPositiveButton("Lanjut") { _, _ ->
+                                        val intent = Intent(context, MainActivity::class.java)
+                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                    create()
+                                    show()
+                                }
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(
+                                    baseContext,
+                                    task.exception?.message,
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            }
+                        }
+
+
+                }
+            }
         }
     }
 
