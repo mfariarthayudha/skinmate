@@ -14,9 +14,7 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:contentDescription="@string/profile_pictrue"
-    android:layout_marginTop="32dp">
-
-</de.hdodenhof.circleimageview.CircleImageView>
+    android:layout_marginTop="32dp"/>
 
     <TextView
         android:id="@+id/Full_Name"

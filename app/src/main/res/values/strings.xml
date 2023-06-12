@@ -36,5 +36,7 @@
     <string name="error_email">Email tidak sesuai</string>
     <string name="error_password">Password tidak sesuai</string>
     <string name="min_length">Minimal %1$d karakter</string>
+    <string name="selamat_datang">Selamat Datang</string>
+    <string name="user_example">User Example</string>
 
 </resources>
