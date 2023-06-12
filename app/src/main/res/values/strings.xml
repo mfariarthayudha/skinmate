@@ -33,5 +33,8 @@
     <string name="report_us">Laporkan Masalah</string>
     <string name="log_out">keluar</string>
     <string name="continue_with_google">Continue With Google</string>
+    <string name="error_email">Email tidak sesuai</string>
+    <string name="error_password">Password tidak sesuai</string>
+    <string name="min_length">Minimal %1$d karakter</string>
 
 </resources>

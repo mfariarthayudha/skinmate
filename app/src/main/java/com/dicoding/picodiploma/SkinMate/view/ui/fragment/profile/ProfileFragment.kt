@@ -20,6 +20,7 @@ import com.dicoding.picodiploma.SkinMate.databinding.FragmentProfileBinding
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome.WelcomeActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -74,7 +75,12 @@ class ProfileFragment : Fragment() {
 
     private fun setUpAction() {
         _binding!!.btnLogout.setOnClickListener{
-            mainViewModel.logout()
+            auth.signOut()
+            activity.let {
+                startActivity(Intent(it, LoginActivity::class.java))
+                activity?.finish()
+            }
+
         }
 
         binding.imageProfile.setOnClickListener{

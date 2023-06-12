@@ -6,15 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".view.ui.fragment.profile.ProfileFragment">
 
-    <ImageView
-        android:id="@+id/image_profile"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="32dp"
-        android:contentDescription="@string/profile_pictrue"/>
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/image_profile"
+    android:layout_width="180dp"
+    android:layout_height="180dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:contentDescription="@string/profile_pictrue"
+    android:layout_marginTop="32dp">
+
+</de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
         android:id="@+id/Full_Name"
