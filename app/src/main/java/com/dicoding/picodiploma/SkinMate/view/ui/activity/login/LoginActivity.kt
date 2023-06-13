@@ -27,6 +27,8 @@ import com.dicoding.picodiploma.SkinMate.model.UserModel
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainActivity
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -55,21 +57,22 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configure Google Sign In
+        auth = Firebase.auth
+        auth.signOut()
+
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken("848339319524-p0rvrj1qatmcqutbc4poq5h72csgpgat.apps.googleusercontent.com")
             .requestEmail()
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        auth = Firebase.auth
-
         setupView()
         setupViewModel()
         setupAction()
         playAnimation()
+
     }
 
     private fun setupView() {
@@ -97,108 +100,94 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.loginButton.setOnClickListener {
-            val email = binding.emailEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+        binding.loginButton.setOnClickListener { signInWithEmailAndPassword() }
+
+        binding.signupButtonWithGoogle.setOnClickListener{
+            val signInIntent = googleSignInClient.signInIntent
+            resultLauncher.launch(signInIntent)
+        }
+    }
+
+    private fun signInWithEmailAndPassword() {
+        val email = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
 
 
-            when {
-                email.isEmpty() -> {
-                    binding.emailEditTextLayout.error = "Masukkan email"
-                }
-                password.isEmpty() -> {
-                    binding.passwordEditTextLayout.error = "Masukkan password"
-                }
-                else -> {
-                    auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this) { task ->
-                            if (task.isSuccessful) {
-                                // Sign in success, update UI with the signed-in user's information
-                                val user = auth.currentUser
-                                AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
-                                    setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
-                                    setPositiveButton("Lanjut") { _, _ ->
-                                        val intent = Intent(context, MainActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                    create()
-                                    show()
+        when {
+            email.isEmpty() -> {
+                binding.emailEditTextLayout.error = "Masukkan email"
+            }
+            password.isEmpty() -> {
+                binding.passwordEditTextLayout.error = "Masukkan password"
+            }
+            else -> {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            val user = auth.currentUser
+                            AlertDialog.Builder(this).apply {
+                                setTitle("Yeah!")
+                                setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
+                                setPositiveButton("Lanjut") { _, _ ->
+                                    val intent = Intent(context, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    finish()
                                 }
-                            } else {
-                                // If sign in fails, display a message to the user.
+                                create()
+                                show()
+                            }
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(
+                                baseContext,
+                                task.exception?.message,
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                    }
+
+
+            }
+        }
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+
+                try {
+                    val account = task.getResult(ApiException::class.java)!!
+                    val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+
+                    auth.signInWithCredential(credential)
+                        .addOnCompleteListener(this) {
+                                task ->
+                            if (task.isSuccessful) {
                                 Toast.makeText(
                                     baseContext,
-                                    task.exception?.message,
+                                    "Berhasil",
+                                    Toast.LENGTH_SHORT,
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    baseContext,
+                                    "Gagal",
                                     Toast.LENGTH_SHORT,
                                 ).show()
                             }
                         }
-
-
-                }
-            }
-        }
-
-        binding.signupButtonWithGoogle.setOnClickListener{
-            signIn()
-        }
-    }
-
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        resultLauncher.launch(signInIntent)
-    }
-
-    private var resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
-            }
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential: AuthCredential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-                    val user: FirebaseUser? = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    updateUI(null)
+                } catch (e: ApiException) {
+                    Toast.makeText(
+                        baseContext,
+                        "Gagal disini",
+                        Toast.LENGTH_SHORT,
+                    ).show()
                 }
             }
     }
-
-    private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            finish()
-        }
-    }
-
-//    override fun onStart() {
-//        super.onStart()
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        val currentUser = auth.currentUser
-//        updateUI(currentUser)
-//    }
 
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
