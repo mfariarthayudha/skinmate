@@ -38,5 +38,37 @@
     <string name="min_length">Minimal %1$d karakter</string>
     <string name="selamat_datang">Selamat Datang</string>
     <string name="user_example">User Example</string>
+    <string name="blog_title">Blog Title</string>
+    <string name="blog_description">Blog Description</string>
+    <string name="blog_image">Blog Image</string>
+
+    <string-array name="data_title">
+        <item>5 Tips Menjaga Kesehatan Kulit, Mudah dan Sederhana</item>
+        <item>Menjaga Kesehatan Kulit dengan Workout</item>
+        <item>Cara Tepat Menjaga Kelembapan Alami Kulit</item>
+        <item>4 Jenis Salep Jamur Kulit untuk Redakan Gejala</item>
+        <item>7 Langkah Perawatan Wajah Berjerawat yang Perlu Diketahui</item>
+    </string-array>
+
+    <string-array name="data_description">
+        <!--        Blog 1-->
+        <item>Menjaga kecantikan dan kesehatan kulit menjadi suatu keharusan yang perlu diperhatikan oleh setiap orang. Mengapa demikian Sebagai organ tubuh terluar, kulit terpapar langsung dengan kotoran atau bakteri yang bisa mengganggu kesehatan yang lebih serius. Semua orang pasti menginginkan kulit yang sehat.
+        </item>
+        <!--        Blog 2-->
+        <item>Menjaga kesehatan kulit sejak dini itu penting, sehingga di masa tua nanti kulit tetap terjaga dan sehat. Tidak perlu perawatan yang mahal, Anda bisa melakukan workout rutin untuk menjaga kesehatan kulit Anda. Berikut diantarana manfaat workout secara rutin untuk kesehatan kulit.</item>
+        <!--        Blog 3-->
+        <item>Cara yang bisa dilakukan agar kulit bisa tetap sehat dan terlihat terawat adalah menjaga kelembapan alaminya Kulit yang kehilangan kelembapan alaminya lebih rentan mengalami munculnya garis-garis halus dan kerutan. Lantas, bagaimana cara tepat menjaga kelembapan alami kulit?</item>
+        <!--        Blog 4-->
+        <item>Infeksi jamur merupakan penyakit kulit yang umum terjadi. Pasalnya, ada jutaan spesies jamur yang bisa ditemukan di lingkungan sekitar kita. Seperti di tanah, tanaman, permukaan perabot rumah, bahkan di kulit. Nah, beberapa dari mereka bisa menyebabkan infeksi kulit dengan gejala yang mengganggu.</item>
+        <!--        Blog 5-->
+        <item>Jerawat umumnya dialami remaja yang sedang pubertas dan siapa pun yang memiliki tipe kulit wajah berminyak. Tidak hanya di wajah, jerawat juga bisa muncul di bagian tubuh lain, seperti punggung, dada, atau leher.</item>
+    </string-array>
+    <integer-array name="data_photo">
+        <item>@drawable/blog1</item>
+        <item>@drawable/blog2</item>
+        <item>@drawable/blog3</item>
+        <item>@drawable/blog4</item>
+        <item>@drawable/blog5</item>
+    </integer-array>
 
 </resources>
