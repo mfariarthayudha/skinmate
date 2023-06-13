@@ -68,6 +68,7 @@ class ProfileFragment : Fragment() {
                 activity.let {
                     val myFile = uriToFile(uri, it)
                     getFile = myFile
+                    binding.imageProfile.setImageURI(uri)
                 }
             }
         }
