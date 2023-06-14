@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
@@ -22,7 +23,6 @@ import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
-import com.dicoding.picodiploma.SkinMate.view.ui.activity.welcome.WelcomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -90,6 +90,34 @@ class ProfileFragment : Fragment() {
             intent.type = "image/*"
             val chooser = Intent.createChooser(intent, "Choose a Picture")
             launcherIntentGallery.launch(chooser)
+        }
+
+        binding.groupHelp.setOnClickListener {
+            activity.let {
+                Toast.makeText(it, "Fitur ini masih dalam pengembangan", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        binding.groupQna.setOnClickListener {
+            activity.let {
+                Toast.makeText(it, "Fitur ini masih dalam pengembangan", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        binding.groupAboutUs.setOnClickListener {
+            activity.let {
+                Toast.makeText(it, "Fitur ini masih dalam pengembangan", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        binding.groupReport.setOnClickListener {
+            activity.let {
+                Toast.makeText(it, "Fitur ini masih dalam pengembangan", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 

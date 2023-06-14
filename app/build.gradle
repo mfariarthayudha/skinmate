@@ -32,8 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    viewBinding {
-        enabled = true
+
+    buildFeatures {
+        viewBinding true
+        mlModelBinding true
     }
 }
 
@@ -82,4 +84,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     implementation 'de.hdodenhof:circleimageview:1.2.1'
+
+    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
 }

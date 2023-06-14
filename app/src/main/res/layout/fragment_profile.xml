@@ -74,7 +74,7 @@
                 android:layout_marginStart="14dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_marginStart="210dp"
@@ -114,10 +114,10 @@
                 android:layout_marginStart="14dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="14sp"/>
 
             <ImageView
-                android:layout_marginStart="170dp"
+                android:layout_marginStart="178dp"
                 android:id="@+id/ic_arrow_qna"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -154,10 +154,10 @@
                 android:layout_marginStart="14dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="14sp"/>
 
             <ImageView
-                android:layout_marginStart="125dp"
+                android:layout_marginStart="142dp"
                 android:id="@+id/ic_arrow_aboutUs"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -194,10 +194,10 @@
                 android:layout_marginStart="14dp"
                 android:layout_gravity="center"
                 android:textColor="@color/black"
-                android:textSize="18dp"/>
+                android:textSize="14sp"/>
 
             <ImageView
-                android:layout_marginStart="125dp"
+                android:layout_marginStart="142dp"
                 android:id="@+id/ic_arrow_report"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -216,10 +216,10 @@
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="360dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:text="@string/log_out"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:background="@drawable/roundedbutton" />
 
     </LinearLayout>

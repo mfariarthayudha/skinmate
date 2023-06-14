@@ -135,7 +135,7 @@ class LoginActivity : AppCompatActivity() {
                             val user = auth.currentUser
                             AlertDialog.Builder(this).apply {
                                 setTitle("Yeah!")
-                                setMessage("Anda berhasil login. Sudah tidak sabar untuk belajar ya?")
+                                setMessage("Anda berhasil login. Mari mulai bersama SkinMate!")
                                 setPositiveButton("Lanjut") { _, _ ->
                                     val intent = Intent(context, MainActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

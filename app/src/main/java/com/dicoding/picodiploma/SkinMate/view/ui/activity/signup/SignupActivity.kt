@@ -74,13 +74,13 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
             when {
                 name.isEmpty() -> {
-                    binding.nameEditTextLayout.error = "Masukkan email"
+                    binding.nameEditTextLayout.error = "Input nama anda!"
                 }
                 email.isEmpty() -> {
-                    binding.emailEditTextLayout.error = "Masukkan email"
+                    binding.emailEditTextLayout.error = "Input email anda!"
                 }
                 password.isEmpty() -> {
-                    binding.passwordEditTextLayout.error = "Masukkan password"
+                    binding.passwordEditTextLayout.error = "Input password anda!"
                 }
                 else -> {
                     auth.createUserWithEmailAndPassword(email, password)

@@ -3,6 +3,7 @@ package com.dicoding.picodiploma.SkinMate.view.ui.fragment.media
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -17,6 +18,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentMediaBinding
+import com.dicoding.picodiploma.SkinMate.ml.ModelDisease
+import com.dicoding.picodiploma.SkinMate.ml.ModelSkinMate
 import com.dicoding.picodiploma.SkinMate.reduceFileImage
 import com.dicoding.picodiploma.SkinMate.retrofit.ApiConfig
 import com.dicoding.picodiploma.SkinMate.retrofit.FileUploadResponse
@@ -27,6 +30,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +46,6 @@ class MediaFragment : Fragment() {
 
     companion object {
         const val CAMERA_X_RESULT = 200
-
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
@@ -74,16 +79,9 @@ class MediaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-//        val homeViewModel =
-//            ViewModelProvider(this@MediaFragment).get(MediaViewModel::class.java)
 
         _binding = FragmentMediaBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-//        val textView: TextView = binding.textCamera
-//        homeViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
 
         activity.let {
             if (!allPermissionsGranted()) {
@@ -103,50 +101,104 @@ class MediaFragment : Fragment() {
     }
 
     private fun uploadImage() {
-        if (getFile != null) {
-            val file = reduceFileImage(getFile as File)
+        if (getFile != null){
+            //deteksi
+            val model = ModelDisease.newInstance(this.requireContext())
+            val skinDisease = getSkinDisease()
 
-            val description = "Ini adalah deksripsi gambar".toRequestBody("text/plain".toMediaType())
-            val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
-            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
-                file.name,
-                requestImageFile
-            )
+            //prepare input
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
 
-            val apiService = ApiConfig().getApiService()
-            val uploadImageRequest = apiService.uploadImage(imageMultipart, description)
+            //file to bitmap
+            val bitmap = BitmapFactory.decodeFile(getFile?.path)
+            val resize = Bitmap.createScaledBitmap(bitmap, 224, 224, true)
 
-            uploadImageRequest.enqueue(object : Callback<FileUploadResponse> {
-                override fun onResponse(
-                    call: Call<FileUploadResponse>,
-                    response: Response<FileUploadResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null && !responseBody.error) {
-                            activity.let {
-                                Toast.makeText(it, responseBody.message, Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    } else {
-                        activity.let {
-                            Toast.makeText(it, response.message(), Toast.LENGTH_SHORT).show()
-                        }
-                    }
+            //create tensorImage
+            val tensorImage = TensorImage(DataType.FLOAT32)
+            tensorImage.load(resize)
+
+            //masukinnn
+            inputFeature0.loadBuffer(tensorImage.buffer)
+
+            //output
+            // Runs model inference and gets result.
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+            var maxIndex = 0
+            var maxValue = outputFeature0.getFloatValue(0)
+            for (i in 0 until 4){
+                val value = outputFeature0.getFloatValue(i)
+                if (value > maxValue){
+                    maxValue = value
+                    maxIndex = i
                 }
-                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
-                    activity.let {
-                        Toast.makeText(it, t.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-        } else {
+            }
+
+            val skin_Disease = skinDisease[maxIndex]
+
+            binding.result.text = skin_Disease
+
+        }else{
             activity.let {
-                Toast.makeText(it, "Silakan masukkan berkas gambar terlebih dahulu.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(it, "Masukan gambar", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun getSkinDisease(): List<String> {
+        val inputString = this.requireContext().assets.open("labelSkinDeasease.txt").bufferedReader().use {
+            it.readText()
+        }
+
+        return inputString.split("\n")
+    }
+
+//    private fun uploadImage() {
+//        if (getFile != null) {
+//            val file = reduceFileImage(getFile as File)
+//
+//            val description = "Ini adalah deksripsi gambar".toRequestBody("text/plain".toMediaType())
+//            val requestImageFile = file.asRequestBody("image/jpeg".toMediaType())
+//            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+//                "photo",
+//                file.name,
+//                requestImageFile
+//            )
+//
+//            val apiService = ApiConfig().getApiService()
+//            val uploadImageRequest = apiService.uploadImage(imageMultipart, description)
+//
+//            uploadImageRequest.enqueue(object : Callback<FileUploadResponse> {
+//                override fun onResponse(
+//                    call: Call<FileUploadResponse>,
+//                    response: Response<FileUploadResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        val responseBody = response.body()
+//                        if (responseBody != null && !responseBody.error) {
+//                            activity.let {
+//                                Toast.makeText(it, responseBody.message, Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//                    } else {
+//                        activity.let {
+//                            Toast.makeText(it, response.message(), Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                }
+//                override fun onFailure(call: Call<FileUploadResponse>, t: Throwable) {
+//                    activity.let {
+//                        Toast.makeText(it, t.message, Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            })
+//        } else {
+//            activity.let {
+//                Toast.makeText(it, "Silakan masukkan berkas gambar terlebih dahulu.", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
     private fun startGallery() {
         val intent = Intent()
