@@ -41,6 +41,15 @@
     <string name="blog_title">Blog Title</string>
     <string name="blog_description">Blog Description</string>
     <string name="blog_image">Blog Image</string>
+    <string name="made_with">Made With ❤</string>
+    <string name="hint_email_login">Enter your valid email</string>
+    <string name="hint_password_login">Enter your password</string>
+    <string name="desc_login">Let\'s Start with Your Account!</string>
+    <string name="already">Already have an account?</string>
+    <string name="doesnt">Doesn\'t have an account?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_your_account_here">Create Your Account Here</string>
 
     <string-array name="data_title">
         <item>5 Tips Menjaga Kesehatan Kulit, Mudah dan Sederhana</item>
