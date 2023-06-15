@@ -21,29 +21,27 @@
 
         <ImageView
             android:id="@+id/img_item_photo"
-            android:layout_width="350dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:contentDescription="@string/blog_image"
             android:scaleType="centerCrop"
-            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars"/>
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/tv_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="8dp"
             android:layout_toEndOf="@id/img_item_photo"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginTop="16dp"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/img_item_photo"
+            card_view:layout_constraintStart_toEndOf="@+id/img_item_photo"
+            card_view:layout_constraintTop_toTopOf="parent"
             tools:text="@string/blog_title" />
 
         <TextView
