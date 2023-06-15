@@ -75,6 +75,14 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setUpAction() {
+        binding.imageProfile.setOnClickListener{
+            val intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            val chooser = Intent.createChooser(intent, "Choose a Picture")
+            launcherIntentGallery.launch(chooser)
+        }
+
         _binding!!.btnLogout.setOnClickListener{
             auth.signOut()
             activity.let {
@@ -82,14 +90,6 @@ class ProfileFragment : Fragment() {
                 activity?.finish()
             }
 
-        }
-
-        binding.imageProfile.setOnClickListener{
-            val intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "image/*"
-            val chooser = Intent.createChooser(intent, "Choose a Picture")
-            launcherIntentGallery.launch(chooser)
         }
 
         binding.groupHelp.setOnClickListener {

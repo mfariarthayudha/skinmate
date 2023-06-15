@@ -1,27 +1,26 @@
 package com.dicoding.picodiploma.SkinMate.view.ui.activity.signup
 
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.picodiploma.SkinMate.databinding.ActivitySignupBinding
-import com.dicoding.picodiploma.SkinMate.model.UserModel
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -40,6 +39,13 @@ class SignupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+
+        if (auth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
 
         setupView()
         setupViewModel()
@@ -92,8 +98,6 @@ class SignupActivity : AppCompatActivity() {
                                     displayName = name
                                     photoUri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/skinmate-e2e32.appspot.com/o/default-profile-picture.png?alt=media&token=7037395b-9e5c-4be7-93d0-4e0d7e2c870b")
                                 })
-
-                                Firebase.auth.signOut()
 
                                 AlertDialog.Builder(this).apply {
                                     setTitle("Yeah!")
