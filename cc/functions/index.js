@@ -20,6 +20,9 @@ exports.setUserDefaultProfilePicture = functions.auth.user().onCreate(async (use
 		})
 
 		await firestore.collection("users").doc(user.uid).set({ photoURL: defaultProfilePictureURL })
+
+		console.log(user.photoURL)
+		return true
 	} catch (error) {
 		return error
 	}

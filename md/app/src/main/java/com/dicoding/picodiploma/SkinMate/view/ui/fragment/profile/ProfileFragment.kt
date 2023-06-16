@@ -25,8 +25,13 @@ import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import java.io.File
+import java.util.UUID
 
 private val Context.dataStore by preferencesDataStore("app_preferences")
 class ProfileFragment : Fragment() {
@@ -34,6 +39,8 @@ class ProfileFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
+    private lateinit var storage: FirebaseStorage
+    private lateinit var firestore: FirebaseFirestore
     private var getFile: File? = null
 
     override fun onCreateView(
@@ -47,6 +54,8 @@ class ProfileFragment : Fragment() {
         val root: View = binding.root
 
         auth = Firebase.auth
+        storage = Firebase.storage
+        firestore = Firebase.firestore
 
         setUpViewModel()
         setUpAction()
@@ -56,22 +65,6 @@ class ProfileFragment : Fragment() {
 //            textView.text = it
 //        }
         return root
-    }
-
-    private val launcherIntentGallery = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val selectedImg = result.data?.data as Uri
-
-            selectedImg.let { uri ->
-                activity.let {
-                    val myFile = uriToFile(uri, it)
-                    getFile = myFile
-                    binding.imageProfile.setImageURI(uri)
-                }
-            }
-        }
     }
 
     private fun setUpAction() {
@@ -130,14 +123,13 @@ class ProfileFragment : Fragment() {
         )[MainViewModel::class.java]
 
         activity.let {
-            val user = auth.currentUser
 
             Glide.with(this@ProfileFragment)
-                .load(user?.photoUrl)
+                .load(auth.currentUser?.photoUrl)
                 .into(binding.imageProfile)
 
-            binding.FullName.text = user?.displayName
-            binding.email.text = user?.email
+            binding.FullName.text = auth.currentUser?.displayName
+            binding.email.text = auth.currentUser?.email
 
 //            mainViewModel.getUser().observe(it!!) { user ->
 //                if (user.isLogin) {
@@ -154,5 +146,38 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val launcherIntentGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val selectedImg = result.data?.data as Uri
+
+            selectedImg.let { uri ->
+                activity.let {
+                    val myFile = uriToFile(uri, it)
+                    getFile = myFile
+                    binding.imageProfile.setImageURI(uri)
+
+                    val storageRef = storage.reference
+                    val profilePictureRef = storageRef.child("profile-picture/" + UUID.randomUUID().toString() + "." + getFile!!.extension)
+
+                    var uploadTask = profilePictureRef.putFile(uri)
+
+                    uploadTask.addOnSuccessListener { taskSnapshot ->
+                        profilePictureRef.downloadUrl.addOnCompleteListener {downloadUrl ->
+                            firestore.collection("users").document(auth.currentUser?.uid.toString())
+                                .set(hashMapOf("photoURL" to downloadUrl.result))
+                                .addOnCompleteListener {
+                                    Glide.with(this@ProfileFragment)
+                                        .load(auth.currentUser?.photoUrl)
+                                        .into(binding.imageProfile)
+                                }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
