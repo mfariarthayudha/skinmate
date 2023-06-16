@@ -10,18 +10,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.dicoding.picodiploma.SkinMate.R
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentProfileBinding
 import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -31,7 +29,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import java.io.File
-import java.util.UUID
+import java.util.*
 
 private val Context.dataStore by preferencesDataStore("app_preferences")
 class ProfileFragment : Fragment() {
@@ -56,6 +54,13 @@ class ProfileFragment : Fragment() {
         auth = Firebase.auth
         storage = Firebase.storage
         firestore = Firebase.firestore
+
+        if (auth.currentUser == null) {
+            activity.let {
+                startActivity(Intent(it, LoginActivity::class.java))
+                activity?.finish()
+            }
+        }
 
         setUpViewModel()
         setUpAction()
@@ -156,9 +161,7 @@ class ProfileFragment : Fragment() {
 
             selectedImg.let { uri ->
                 activity.let {
-                    val myFile = uriToFile(uri, it)
-                    getFile = myFile
-                    binding.imageProfile.setImageURI(uri)
+                    getFile = uriToFile(uri, it)
 
                     val storageRef = storage.reference
                     val profilePictureRef = storageRef.child("profile-picture/" + UUID.randomUUID().toString() + "." + getFile!!.extension)
