@@ -96,7 +96,6 @@ class SignupActivity : AppCompatActivity() {
 
                                 user!!.updateProfile(userProfileChangeRequest {
                                     displayName = name
-                                    photoUri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/skinmate-e2e32.appspot.com/o/default-profile-picture.png?alt=media&token=7037395b-9e5c-4be7-93d0-4e0d7e2c870b")
                                 })
 
                                 AlertDialog.Builder(this).apply {

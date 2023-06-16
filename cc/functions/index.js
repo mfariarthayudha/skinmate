@@ -8,7 +8,7 @@ const { getStorage } = require("firebase-admin/storage")
 const application = initializeApp({
 	storageBucket: "gs://skinmate-e2e32.appspot.com/",
 })
-const defaultProfilePictureURL = "https://firebasestorage.googleapis.com/v0/b/skinmate-e2e32.appspot.com/o/profile-picture%2Fdefault-profile-picture.png?alt=media&token=09ae5e4f-dc40-41f6-9ae7-60d37aae28echttp://127.0.0.1:9199/v0/b/skinmate-e2e32.appspot.com/o/profile-picture%2Fdefault-profile-picture.png?alt=media&token=e191f35d-d123-4636-ac58-0223566f0687"
+const defaultProfilePictureURL = "https://firebasestorage.googleapis.com/v0/b/skinmate-e2e32.appspot.com/o/profile-picture%2Fdefault-profile-picture.png?alt=media&token=09ae5e4f-dc40-41f6-9ae7-60d37aae28ec"
 
 exports.setUserDefaultProfilePicture = functions.auth.user().onCreate(async (user) => {
 	try {
