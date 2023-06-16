@@ -26,6 +26,10 @@ import com.dicoding.picodiploma.SkinMate.retrofit.FileUploadResponse
 import com.dicoding.picodiploma.SkinMate.rotateFile
 import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.camera.CameraActivity
+import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -42,6 +46,7 @@ class MediaFragment : Fragment() {
     private var _binding: FragmentMediaBinding? = null
     private val binding get() = _binding!!
     private lateinit var currentPhotoPath: String
+    private lateinit var auth: FirebaseAuth
     private var getFile: File? = null
 
     companion object {
@@ -90,6 +95,15 @@ class MediaFragment : Fragment() {
                     REQUIRED_PERMISSIONS,
                     REQUEST_CODE_PERMISSIONS
                 )
+            }
+        }
+
+        auth = Firebase.auth
+
+        if (auth.currentUser == null) {
+            activity.let {
+                startActivity(Intent(it, LoginActivity::class.java))
+                activity?.finish()
             }
         }
 
