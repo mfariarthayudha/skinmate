@@ -1,0 +1,19 @@
+{
+  "name": "profile-picture/gambar-test.png",
+  "bucket": "skinmate-e2e32.appspot.com",
+  "metageneration": 1,
+  "generation": 1686856945095,
+  "contentType": "image/png",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "b535b54a-d535-4269-944e-eff993961ac3"
+  ],
+  "etag": "FfmCKkFmrCdGiZnHHsOpBHsItIw",
+  "customMetadata": {},
+  "timeCreated": "2023-06-15T19:22:25.095Z",
+  "updated": "2023-06-15T19:22:25.095Z",
+  "size": 207285,
+  "md5Hash": "RWnCbmi3Ai1ujnY147QhFg==",
+  "crc32c": "3620249833"
+}

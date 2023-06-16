@@ -1,0 +1,19 @@
+{
+  "name": "profile-picture/default-profile-picture.png",
+  "bucket": "skinmate-e2e32.appspot.com",
+  "metageneration": 1,
+  "generation": 1686844459782,
+  "contentType": "image/png",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "e191f35d-d123-4636-ac58-0223566f0687"
+  ],
+  "etag": "fKYV24fTgja572JoGwnr6wXkUnI",
+  "customMetadata": {},
+  "timeCreated": "2023-06-15T15:54:19.782Z",
+  "updated": "2023-06-15T15:54:19.782Z",
+  "size": 32174,
+  "md5Hash": "BVqRl5JkZkoe4SuUU2ENgg==",
+  "crc32c": "3317079087"
+}
