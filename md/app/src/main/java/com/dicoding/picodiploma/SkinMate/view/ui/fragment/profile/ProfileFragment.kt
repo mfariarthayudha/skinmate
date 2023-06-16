@@ -176,6 +176,11 @@ class ProfileFragment : Fragment() {
                                     Glide.with(this@ProfileFragment)
                                         .load(auth.currentUser?.photoUrl)
                                         .into(binding.imageProfile)
+
+                                    activity.let {
+                                        Toast.makeText(it, "Berhasil mengganti photo profile, Silakan keluar dan masuk kembali untuk melihat perubahan", Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
                                 }
                         }
                     }
