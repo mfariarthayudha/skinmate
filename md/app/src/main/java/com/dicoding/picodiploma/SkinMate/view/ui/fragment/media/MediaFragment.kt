@@ -19,10 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.dicoding.picodiploma.SkinMate.databinding.FragmentMediaBinding
 import com.dicoding.picodiploma.SkinMate.ml.ModelDisease
-import com.dicoding.picodiploma.SkinMate.ml.ModelSkinMate
-import com.dicoding.picodiploma.SkinMate.reduceFileImage
-import com.dicoding.picodiploma.SkinMate.retrofit.ApiConfig
-import com.dicoding.picodiploma.SkinMate.retrofit.FileUploadResponse
 import com.dicoding.picodiploma.SkinMate.rotateFile
 import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.camera.CameraActivity
@@ -30,22 +26,14 @@ import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.io.File
 
 class MediaFragment : Fragment() {
     private var _binding: FragmentMediaBinding? = null
     private val binding get() = _binding!!
-    private lateinit var currentPhotoPath: String
     private lateinit var auth: FirebaseAuth
     private var getFile: File? = null
 

@@ -19,7 +19,6 @@ import com.dicoding.picodiploma.SkinMate.model.UserPreference
 import com.dicoding.picodiploma.SkinMate.uriToFile
 import com.dicoding.picodiploma.SkinMate.view.ViewModelFactory
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
-import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -136,15 +135,6 @@ class ProfileFragment : Fragment() {
             binding.FullName.text = auth.currentUser?.displayName
             binding.email.text = auth.currentUser?.email
 
-//            mainViewModel.getUser().observe(it!!) { user ->
-//                if (user.isLogin) {
-//                    binding.FullName.text = user.name
-//                    binding.email.text = user.email
-//                } else {
-//                    startActivity(Intent(it, WelcomeActivity::class.java))
-//                    requireActivity().finish()
-//                }
-//            }
         }
     }
 
@@ -166,9 +156,9 @@ class ProfileFragment : Fragment() {
                     val storageRef = storage.reference
                     val profilePictureRef = storageRef.child("profile-picture/" + UUID.randomUUID().toString() + "." + getFile!!.extension)
 
-                    var uploadTask = profilePictureRef.putFile(uri)
+                    val uploadTask = profilePictureRef.putFile(uri)
 
-                    uploadTask.addOnSuccessListener { taskSnapshot ->
+                    uploadTask.addOnSuccessListener {
                         profilePictureRef.downloadUrl.addOnCompleteListener {downloadUrl ->
                             firestore.collection("users").document(auth.currentUser?.uid.toString())
                                 .set(hashMapOf("photoURL" to downloadUrl.result))
@@ -178,7 +168,7 @@ class ProfileFragment : Fragment() {
                                         .into(binding.imageProfile)
 
                                     activity.let {
-                                        Toast.makeText(it, "Berhasil mengganti photo profile, Silakan keluar dan masuk kembali untuk melihat perubahan", Toast.LENGTH_SHORT)
+                                        Toast.makeText(requireContext(), "Berhasil mengganti photo profile, Silakan keluar dan masuk kembali untuk melihat perubahan", Toast.LENGTH_SHORT)
                                             .show()
                                     }
                                 }

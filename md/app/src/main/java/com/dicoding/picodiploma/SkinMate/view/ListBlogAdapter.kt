@@ -40,8 +40,9 @@ class ListBlogAdapter (private val listBlog: ArrayList<DataBlog>) : RecyclerView
         holder.itemView.setOnClickListener {
             Toast.makeText(holder.itemView.context, "Selamat membaca tentang " + listBlog[holder.adapterPosition].title, Toast.LENGTH_SHORT).show()
 
-            val openURL = Intent(android.content.Intent.ACTION_VIEW)
+//            val openURL = Intent(android.content.Intent.ACTION_VIEW)
 
+            val openURL = Intent(Intent.ACTION_VIEW)
             openURL.data = Uri.parse("https://cnfstore.com/blog/post/baca-5-tips-menjaga-kesehatan-kulit-mudah-dan-sederhana")
 //            val intentDetail = Intent(holder.itemView.context, DetailActivity::class.java)
             openURL.putExtra("key_president", listBlog[holder.adapterPosition])

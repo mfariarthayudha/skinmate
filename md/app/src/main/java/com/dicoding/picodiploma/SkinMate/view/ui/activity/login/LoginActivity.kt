@@ -9,7 +9,6 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -74,9 +73,9 @@ class LoginActivity : AppCompatActivity() {
             ViewModelFactory(UserPreference.getInstance(dataStore))
         )[LoginViewModel::class.java]
 
-        loginViewModel.getUser().observe(this, { user ->
+        loginViewModel.getUser().observe(this) { user ->
             this.user = user
-        })
+        }
     }
 
     private fun setupAction() {
@@ -96,20 +95,12 @@ class LoginActivity : AppCompatActivity() {
                     auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this) { task ->
                             if (task.isSuccessful) {
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
                                 // Sign in success, update UI with the signed-in user's information
-                                val user = auth.currentUser
-                                AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
-                                    setMessage("Anda berhasil login. Mari mulai bersama SkinMate!")
-                                    setPositiveButton("Lanjut") { _, _ ->
-                                        val intent = Intent(context, MainActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                    create()
-                                    show()
-                                }
+
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(

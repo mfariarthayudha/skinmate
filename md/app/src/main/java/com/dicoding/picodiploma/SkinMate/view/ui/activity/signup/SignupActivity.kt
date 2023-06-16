@@ -3,14 +3,12 @@ package com.dicoding.picodiploma.SkinMate.view.ui.activity.signup
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -97,19 +95,14 @@ class SignupActivity : AppCompatActivity() {
                                 user!!.updateProfile(userProfileChangeRequest {
                                     displayName = name
                                 })
+                                auth.signOut()
 
-                                AlertDialog.Builder(this).apply {
-                                    setTitle("Yeah!")
-                                    setMessage("Akunnya sudah jadi nih. Yuk, login dan belajar coding.")
-                                    setPositiveButton("Lanjut") { _, _ ->
-                                        val intent = Intent(context, LoginActivity::class.java)
-                                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                    create()
-                                    show()
-                                }
+                                val intent = Intent(this, LoginActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                                Toast.makeText(this, "Akun anda berhasil dibuat!", Toast.LENGTH_SHORT).show()
+
                             } else {
                                 Toast.makeText(
                                     baseContext,

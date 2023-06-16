@@ -22,12 +22,7 @@ import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.main.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
-import java.io.File
 
 private val Context.dataStore by preferencesDataStore("app_preferences")
 class HomeFragment : Fragment() {
@@ -38,8 +33,6 @@ class HomeFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
-    private var getFile: File? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -85,16 +78,6 @@ class HomeFragment : Fragment() {
                 .into(binding.imageProfile)
 
             binding.username.text = user?.displayName
-
-//            mainViewModel.getUser().observe(it!!) { user ->
-//                if (user.isLogin) {
-//                    binding.FullName.text = user.name
-//                    binding.email.text = user.email
-//                } else {
-//                    startActivity(Intent(it, WelcomeActivity::class.java))
-//                    requireActivity().finish()
-//                }
-//            }
         }
     }
 

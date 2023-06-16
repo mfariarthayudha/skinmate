@@ -10,7 +10,7 @@ import com.dicoding.picodiploma.SkinMate.R
 import com.dicoding.picodiploma.SkinMate.view.ui.activity.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
-    private val SPLASH_TIME_OUT:Long = 3000
+    private val SPLASH_TIME_OUT:Long = 2000
     private lateinit var gambar_loading: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
